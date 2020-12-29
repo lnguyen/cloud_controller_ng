@@ -66,6 +66,9 @@ gem 'vcap-concurrency', git: 'https://github.com/cloudfoundry/vcap-concurrency.g
 gem 'cf-perm', '~> 0.0.10'
 gem 'scientist', '~> 1.1.0'
 
+gem 'ruby-debug-ide', '~> 0.7.0'
+gem 'debase', '~> 0.2.0'
+
 group :db do
   gem 'mysql2', '~> 0.5.3'
   gem 'pg'
@@ -96,10 +99,8 @@ end
 
 group :development do
   gem 'byebug'
-  gem 'debase', '>= 0.2.2.beta14'
   gem 'listen'
   gem 'roodi'
-  gem 'ruby-debug-ide', '>= 0.7.0.beta4'
   gem 'solargraph'
   gem 'spork', git: 'https://github.com/sporkrb/spork', ref: '224df49' # '~> 1.0rc'
   gem 'spring'
