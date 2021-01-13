@@ -12,7 +12,8 @@ module CloudFoundry
         @security_context_configurer.configure(header_token)
 
         if !VCAP::CloudController::SecurityContext.missing_token? && VCAP::CloudController::SecurityContext.invalid_token?
-          raise CloudController::Errors::NotAuthenticated
+          error = ErrorPresenter.new(error, Rails.env.test?, V3ErrorHasher.new(CloudController::Errors::InvalidAuthToken))
+          [401, { 'Content-Type:' => 'application/json' }, [error]]
         else
           
         end
