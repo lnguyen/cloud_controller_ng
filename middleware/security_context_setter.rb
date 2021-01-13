@@ -11,6 +11,12 @@ module CloudFoundry
 
         @security_context_configurer.configure(header_token)
 
+        if !VCAP::CloudController::SecurityContext.missing_token? && VCAP::CloudController::SecurityContext.invalid_token?
+          raise CloudController::Errors::NotAuthenticated
+        else
+          
+        end
+
         if VCAP::CloudController::SecurityContext.valid_token?
           env['cf.user_guid'] = id_from_token
           env['cf.user_name'] = VCAP::CloudController::SecurityContext.token['user_name']
