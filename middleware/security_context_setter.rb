@@ -27,7 +27,7 @@ module CloudFoundry
         logger.error("Failed communicating with UAA: #{e.message}")
         [502, { 'Content-Type:' => 'application/json' }, [error_message(env)]]
       rescue CloudController::Errors::InvalidAuthToken
-        error = ErrorPresenter.new(error, Rails.env.test?, V3ErrorHasher.new(CloudController::Errors::InvalidAuthToken))
+        error = ErrorPresenter.new(error, Rails.env.test?, V3ErrorHasher.new(CloudController::Errors::InvalidAuthToken)).to_json
         [401, { 'Content-Type:' => 'application/json' }, [error]]
       end
 
