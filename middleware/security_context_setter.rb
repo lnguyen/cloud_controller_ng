@@ -12,8 +12,7 @@ module CloudFoundry
         @security_context_configurer.configure(header_token)
 
         if !VCAP::CloudController::SecurityContext.missing_token? && VCAP::CloudController::SecurityContext.invalid_token?
-          error = ErrorPresenter.new(error, Rails.env.test?, V3ErrorHasher.new(CloudController::Errors::InvalidAuthToken))
-          [401, { 'Content-Type:' => 'application/json' }, [error]]
+          raise CloudController::Errors::InvalidAuthToken
         else
           
         end
@@ -27,6 +26,9 @@ module CloudFoundry
       rescue VCAP::CloudController::UaaUnavailable => e
         logger.error("Failed communicating with UAA: #{e.message}")
         [502, { 'Content-Type:' => 'application/json' }, [error_message(env)]]
+      rescue CloudController::Errors::InvalidAuthToken
+        error = ErrorPresenter.new(error, Rails.env.test?, V3ErrorHasher.new(CloudController::Errors::InvalidAuthToken))
+        [401, { 'Content-Type:' => 'application/json' }, [error]]
       end
 
       private
